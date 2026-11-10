@@ -1,0 +1,491 @@
+<title>LR Mídias</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: uma página só, colunas largas com fios finos, muito respiro; a seção de clientes inverte as cores para marcar a mudança. */
+:root {
+  --bg: #eef0ea;
+  --surface: #e4e9e0;
+  --fg: #1d322c;
+  --muted: #55675e;
+  --line: #c9d1c6;
+  --accent: #5f7a57;
+  --hi: #ecd49b;
+  --on-hi: #1d322c;
+  --inv-bg: #1f362f;
+  --inv-fg: #eef0ea;
+  --inv-muted: #a9b8ae;
+  --inv-line: #3a564b;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #172a24; --surface: #1f362f; --fg: #eef0ea; --muted: #a9b8ae; --line: #33504a;
+    --accent: #93ab8a; --hi: #e8cf94; --on-hi: #1d322c;
+    --inv-bg: #eef0ea; --inv-fg: #1d322c; --inv-muted: #55675e; --inv-line: #c9d1c6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #172a24; --surface: #1f362f; --fg: #eef0ea; --muted: #a9b8ae; --line: #33504a;
+  --accent: #93ab8a; --hi: #e8cf94; --on-hi: #1d322c;
+  --inv-bg: #eef0ea; --inv-fg: #1d322c; --inv-muted: #55675e; --inv-line: #c9d1c6;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.band { padding-block: clamp(64px, 10vw, 120px); }
+.band + .band { border-top: 1px solid var(--line); }
+
+.eyebrow {
+  font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600;
+  margin: 0 0 20px;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; text-wrap: balance; letter-spacing: -.01em;
+  font-variation-settings: "SOFT" 100, "WONK" 1; }
+h2 { font-size: clamp(30px, 4.6vw, 52px); line-height: 1.08; max-width: 20ch; }
+p { margin: 0; }
+.lead { font-size: clamp(18px, 2vw, 22px); line-height: 1.5; max-width: 56ch; color: var(--muted); }
+
+/* header */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 22px; flex-wrap: wrap; }
+.mark { font-family: var(--font-display); font-weight: 900; font-size: 22px; text-decoration: none; letter-spacing: .01em;
+  font-variation-settings: "SOFT" 100, "WONK" 1; }
+.nav { display: flex; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+.nav a { text-decoration: none; color: var(--muted); }
+.nav a:hover { color: var(--fg); }
+
+/* hero */
+.hero { padding-block: clamp(56px, 11vw, 140px) clamp(56px, 9vw, 110px); }
+.hero h1 { font-size: clamp(56px, 13vw, 168px); line-height: .92; font-weight: 900; }
+.hero .tag { font-family: var(--font-display); font-size: clamp(22px, 3.4vw, 40px); margin-top: 28px; font-weight: 400;
+  font-variation-settings: "SOFT" 100, "WONK" 0; }
+.hero .tag mark { background: var(--hi); color: var(--on-hi); padding: 0 .18em; border-radius: 3px; }
+.hero .lead { margin-top: 28px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: 15px;
+  padding: 14px 22px; border-radius: 999px; border: 1px solid var(--fg); color: var(--fg); background: transparent;
+  cursor: pointer; font-family: inherit; line-height: 1.2; min-height: 46px; justify-content: center;
+}
+.btn.solid { background: var(--fg); color: var(--bg); }
+.btn:hover { background: var(--hi); color: var(--on-hi); border-color: var(--hi); }
+
+/* sobre */
+.split { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(32px, 6vw, 96px); }
+.split > * { min-width: 0; }
+.stack { display: grid; gap: 22px; }
+.stack p { max-width: 58ch; }
+
+/* serviços */
+.services { list-style: none; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(32px, 6vw, 96px); }
+.services li { padding: 18px 0; border-top: 1px solid var(--line); font-size: 18px; display: flex; gap: 14px; align-items: baseline; }
+.services li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; transform: translateY(-2px); }
+
+/* resultados */
+.case { margin-top: 56px; display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+.case > * { min-width: 0; }
+.case h3 { font-size: 28px; }
+.case .handle { color: var(--muted); font-size: 15px; margin-top: 6px; }
+.case .big { font-family: var(--font-display); font-size: clamp(54px, 8vw, 96px); font-weight: 900; line-height: 1; margin-top: 32px;
+  font-variation-settings: "SOFT" 100, "WONK" 1; font-variant-numeric: tabular-nums; }
+.case .big span { background: var(--hi); color: var(--on-hi); padding: 0 .1em; border-radius: 4px; }
+.case .big-note { color: var(--muted); margin-top: 10px; max-width: 30ch; }
+.metric { padding: 20px 0; border-top: 1px solid var(--line); }
+.metric:last-child { border-bottom: 1px solid var(--line); }
+.metric .name { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
+.bars { display: grid; gap: 8px; }
+.row { display: grid; grid-template-columns: 78px 1fr 72px; gap: 12px; align-items: center; font-size: 14px; }
+.row .lab { color: var(--muted); }
+.row .num { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.track { height: 10px; border-radius: 999px; background: var(--surface); overflow: hidden; }
+.fill { display: block; height: 100%; border-radius: 999px; background: var(--line); }
+.fill.after { background: var(--accent); }
+.fine { font-size: 13px; color: var(--muted); margin-top: 16px; }
+.more { margin-top: 40px; }
+
+/* portfólio */
+.folio { list-style: none; padding: 0; margin: 56px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 32px; }
+.folio li { border-top: 1px solid var(--line); }
+.folio a { display: block; padding: 16px 0; text-decoration: none; font-size: 15px; overflow-wrap: anywhere; }
+.folio a:hover { color: var(--accent); }
+.folio a::before { content: "@"; color: var(--muted); }
+
+/* clientes (invertido) */
+.inv { background: var(--inv-bg); color: var(--inv-fg); border-top: 0 !important; }
+.inv .eyebrow, .inv .lead { color: var(--inv-muted); }
+.quotes { margin-top: 56px; columns: 3 260px; column-gap: 40px; }
+.quote { break-inside: avoid; margin: 0 0 40px; padding-top: 18px; border-top: 1px solid var(--inv-line); }
+.quote p { font-family: var(--font-display); font-size: 21px; line-height: 1.35; font-weight: 400;
+  font-variation-settings: "SOFT" 100, "WONK" 0; }
+.quote cite { display: block; margin-top: 14px; font-style: normal; font-size: 13px; color: var(--inv-muted); letter-spacing: .04em; }
+.inv .btn { border-color: var(--inv-fg); color: var(--inv-fg); }
+.inv .btn.solid { background: var(--inv-fg); color: var(--inv-bg); }
+.inv .btn:hover { background: var(--hi); border-color: var(--hi); color: var(--on-hi); }
+.video { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--inv-line); display: flex; gap: 12px 28px; flex-wrap: wrap; align-items: center; }
+.video strong { font-weight: 600; }
+.video span { color: var(--inv-muted); }
+
+/* mapa */
+.place { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(32px, 6vw, 96px); align-items: stretch; }
+.place > * { min-width: 0; }
+.addr { font-family: var(--font-display); font-size: clamp(24px, 3vw, 34px); line-height: 1.2; margin-top: 28px; font-weight: 500; }
+.addr-note { color: var(--muted); font-size: 15px; margin-top: 12px; max-width: 38ch; }
+.map { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); min-height: 320px; position: relative; overflow: hidden; }
+.map svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.map .cap { position: absolute; left: 16px; bottom: 12px; font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+
+/* contato */
+.contact { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 32px; margin-top: 56px; }
+.contact > div { border-top: 1px solid var(--line); padding: 18px 0; min-width: 0; }
+.contact .k { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.contact .v { font-size: 19px; margin-top: 8px; overflow-wrap: anywhere; }
+.contact .v a { text-decoration: none; border-bottom: 1px solid var(--line); }
+.contact .v a:hover { border-color: var(--accent); }
+.copy { margin-top: 10px; font: inherit; font-size: 13px; background: none; border: 1px solid var(--line); color: var(--muted); padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+.copy:hover { color: var(--fg); border-color: var(--fg); }
+
+footer { padding-block: 40px calc(40px + 56px); border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; }
+
+.wa {
+  position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 5; text-decoration: none; font-weight: 600; font-size: 14px; padding: 13px 20px; border-radius: 999px;
+  background: var(--fg); color: var(--bg); box-shadow: 0 6px 20px rgba(0,0,0,.18);
+}
+.wa:hover { background: var(--hi); color: var(--on-hi); }
+
+/* interações */
+.btn, .copy, .wa { transition: transform .25s ease, background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.btn::after { content: "→"; display: inline-block; transition: transform .25s ease; }
+.btn:active, .wa:active, .copy:active { transform: scale(.97); }
+.nav a { position: relative; padding-block: 6px; transition: color .25s ease; }
+.nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+.mark { display: inline-block; transition: transform .3s ease; }
+.services li { transition: transform .3s ease; }
+.services li::before { transition: transform .3s ease; }
+.folio a { transition: transform .3s ease, color .25s ease; }
+.folio a::after { content: "↗"; float: right; opacity: 0; transform: translate(-6px, 6px); transition: opacity .25s ease, transform .3s ease; color: var(--accent); }
+.quote { transition: transform .3s ease, border-color .3s ease; }
+.track { transition: transform .3s ease; transform-origin: left center; }
+.map svg path:last-of-type, .map svg circle { transition: transform .4s ease; transform-box: fill-box; transform-origin: center bottom; }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(0, 0, 0, .45); }
+  .btn:hover::after { transform: translateX(5px); }
+  .nav a:hover::after { transform: scaleX(1); }
+  .mark:hover { transform: rotate(-2deg) scale(1.04); }
+  .wa:hover { transform: translateY(-3px); }
+  .services li:hover { transform: translateX(10px); }
+  .services li:hover::before { transform: translateY(-2px) scale(1.8); }
+  .folio a:hover { transform: translateX(8px); }
+  .folio a:hover::after { opacity: 1; transform: translate(0, 0); }
+  .quote:hover { transform: translateY(-5px); border-color: var(--hi); }
+  .metric:hover .track { transform: scaleY(1.6); }
+  .map:hover svg path:last-of-type { transform: translateY(-8px); }
+  .copy:hover { transform: translateY(-1px); }
+}
+
+@media (max-width: 860px) {
+  .split, .case, .place { grid-template-columns: 1fr; }
+  .folio { grid-template-columns: repeat(2, 1fr); }
+  .contact { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .top { padding-block: 14px 8px; gap: 6px; }
+  .nav { width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 22px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { white-space: nowrap; padding-block: 12px; }
+  .hero { padding-block: 40px 56px; }
+  .hero h1 { font-size: 15vw; }
+  .band { padding-block: 56px; }
+  h2 { max-width: none; }
+  .actions { flex-direction: column; }
+  .actions .btn { width: 100%; }
+  .services { grid-template-columns: 1fr; margin-top: 36px; }
+  .services li { padding: 16px 0; font-size: 17px; }
+  .case, .folio, .quotes, .contact { margin-top: 36px; }
+  .row { grid-template-columns: 58px 1fr 58px; gap: 10px; }
+  .folio { grid-template-columns: repeat(2, 1fr); gap: 0 20px; }
+  .folio a { padding: 15px 0; font-size: 14px; }
+  .quotes { columns: 1; }
+  .quote { margin-bottom: 28px; }
+  .quote p { font-size: 20px; }
+  .video { flex-direction: column; align-items: stretch; }
+  .video .btn { width: 100%; }
+  .map { min-height: 240px; }
+  .contact .v { font-size: 18px; }
+  .copy { padding: 10px 16px; min-height: 44px; }
+  .wa { padding: 14px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+
+<header class="wrap top">
+  <a class="mark" href="#inicio">LR Mídias</a>
+  <nav class="nav" aria-label="Seções">
+    <a href="#sobre">Sobre</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#portfolio">Portfólio</a>
+    <a href="#clientes">Clientes</a>
+    <a href="#localizacao">Localização</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<main id="inicio">
+  <section class="wrap hero">
+    <h1>LR Mídias</h1>
+    <p class="tag">Ao lado da <mark>sua marca.</mark></p>
+    <p class="lead">Direção criativa que movimenta seu negócio, onde ele estiver. Gestão digital estratégica para quem quer crescer com quem se importa com o resultado.</p>
+    <div class="actions">
+      <a class="btn solid" href="https://wa.me/5522981778106">Fale com a LR</a>
+      <a class="btn" href="#portfolio">Conheça nosso trabalho</a>
+    </div>
+  </section>
+
+  <section class="band" id="sobre">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Sobre</p>
+        <h2>Nascemos para transformar negócios.</h2>
+      </div>
+      <div class="stack">
+        <p class="lead">Transformar negócios por meio de estratégias digitais humanas e personalizadas.</p>
+        <p>Desde o começo, nosso foco é auxiliar empresas a crescerem e gerarem mais resultados de forma estruturada e inteligente.</p>
+        <p>Combinando criatividade, estratégia e atendimento próximo, conectamos marcas ao público certo, sempre valorizando a individualidade de cada negócio.</p>
+        <p>Se você deseja crescer no digital com quem se importa com o seu resultado, a LR é para você.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="servicos">
+    <div class="wrap">
+      <p class="eyebrow">Serviços</p>
+      <h2>O que fazemos pela sua marca.</h2>
+      <ul class="services">
+        <li>Tráfego pago e gestão de redes</li>
+        <li>Modelo: gravação e foto</li>
+        <li>Sites e links na bio</li>
+        <li>Mentoria e consultoria LR</li>
+        <li>Google Meu Negócio</li>
+        <li>Criação de materiais gráficos e outros</li>
+        <li>Criação de curso e e-book</li>
+        <li>Gestão de marketplace</li>
+        <li>Gestão de influencers</li>
+        <li>Marketing para filiados</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band" id="resultados">
+    <div class="wrap">
+      <p class="eyebrow">Resultados do 1º ao 4º mês</p>
+      <h2>Números de quem já trabalhou com a LR.</h2>
+      <div class="case">
+        <div>
+          <h3>Assados do Nando</h3>
+          <p class="handle">Restaurante · @assadosdonandoo</p>
+          <p class="big"><span>+1.500</span></p>
+          <p class="big-note">seguidores em 4 meses. Visitas ao perfil em quase 30x e cliques na bio em 38x.</p>
+        </div>
+        <div>
+          <div class="metric">
+            <div class="name">Seguidores</div>
+            <div class="bars">
+              <div class="row"><span class="lab">Antes</span><span class="track"><span class="fill" style="width:21.5%"></span></span><span class="num">440</span></div>
+              <div class="row"><span class="lab">4º mês</span><span class="track"><span class="fill after" style="width:100%"></span></span><span class="num">2.050</span></div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="name">Visitas ao perfil</div>
+            <div class="bars">
+              <div class="row"><span class="lab">Antes</span><span class="track"><span class="fill" style="width:3%"></span></span><span class="num">174</span></div>
+              <div class="row"><span class="lab">4º mês</span><span class="track"><span class="fill after" style="width:100%"></span></span><span class="num">5.747</span></div>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="name">Toques no link da bio</div>
+            <div class="bars">
+              <div class="row"><span class="lab">Antes</span><span class="track"><span class="fill" style="width:2.5%"></span></span><span class="num">23</span></div>
+              <div class="row"><span class="lab">4º mês</span><span class="track"><span class="fill after" style="width:100%"></span></span><span class="num">924</span></div>
+            </div>
+          </div>
+          <p class="fine">As barras são proporcionais dentro de cada métrica, com o 4º mês como 100%.</p>
+        </div>
+      </div>
+      <div class="actions more">
+        <a class="btn" href="#clientes">Ver o que os clientes dizem</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="portfolio">
+    <div class="wrap">
+      <p class="eyebrow">Portfólio</p>
+      <h2>Marcas que caminham com a LR.</h2>
+      <ul class="folio">
+        <li><a href="https://www.instagram.com/kampaidelivery">Kampaidelivery</a></li>
+        <li><a href="https://www.instagram.com/tornadotextil">tornadotextil</a></li>
+        <li><a href="https://www.instagram.com/barbaroninf">barbaroninf</a></li>
+        <li><a href="https://www.instagram.com/bortielle_burguers">bortielle_burguers</a></li>
+        <li><a href="https://www.instagram.com/pedecafe.nf">pedecafe.nf</a></li>
+        <li><a href="https://www.instagram.com/2youfitness">2Youfitness</a></li>
+        <li><a href="https://www.instagram.com/assadosdonandoo">assadosdonandoo</a></li>
+        <li><a href="https://www.instagram.com/jessicaleite.estetica">jessicaleite.estetica</a></li>
+        <li><a href="https://www.instagram.com/gerlanemassoterapia">gerlanemassoterapia</a></li>
+        <li><a href="https://www.instagram.com/geroix.cosmeticos">Geroix.cosmeticos</a></li>
+        <li><a href="https://www.instagram.com/carolinenunesb_">Carolinenunesb_</a></li>
+        <li><a href="https://www.instagram.com/gotrix.novafriburgo">gotrix.novafriburgo</a></li>
+        <li><a href="https://www.instagram.com/lojacharmenf">lojacharmenf</a></li>
+        <li><a href="https://www.instagram.com/greko.fabrica">Greko.fabrica</a></li>
+        <li><a href="https://www.instagram.com/gamastournf">gamastournf</a></li>
+        <li><a href="https://www.instagram.com/psi.habilite">psi.habilite</a></li>
+        <li><a href="https://www.instagram.com/blpet_">blpet_</a></li>
+        <li><a href="https://www.instagram.com/alinecomcarinho">alinecomcarinho</a></li>
+        <li><a href="https://www.instagram.com/lenon_thebarber">lenon_thebarber</a></li>
+        <li><a href="https://www.instagram.com/kamaleoaoficial">kamaleoaoficial</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band inv" id="clientes">
+    <div class="wrap">
+      <p class="eyebrow">Clientes</p>
+      <h2>O que os nossos clientes estão dizendo.</h2>
+      <p class="lead" style="margin-top:20px">Mensagens reais recebidas pela equipe da LR.</p>
+
+      <div class="quotes">
+        <figure class="quote"><p>Ontem foi sucesso. Zeramos todas as mesas. E faltou mesa ainda. Japa esgotou.</p><cite>Restaurante</cite></figure>
+        <figure class="quote"><p>60 deliverys em apenas 1h e meia.</p><cite>Restaurante</cite></figure>
+        <figure class="quote"><p>Hoje e ontem atendemos mais de 500 clientes.</p><cite>Restaurante</cite></figure>
+        <figure class="quote"><p>Vamos precisar parar as reservas, pois estamos com muitas demandas.</p><cite>Restaurante</cite></figure>
+        <figure class="quote"><p>Ganhamos +/- 300 seguidores nesse mês.</p><cite>Cliente LR</cite></figure>
+        <figure class="quote"><p>Nos últimos 3 meses conseguimos 360 cliques na bio!</p><cite>Cliente LR</cite></figure>
+        <figure class="quote"><p>56 pessoas entraram em contato através do Instagram.</p><cite>Cliente LR</cite></figure>
+        <figure class="quote"><p>Os vídeos e os posts ficaram ótimos!! Impressionante como vocês traduziram o que queríamos.</p><cite>Cliente LR</cite></figure>
+        <figure class="quote"><p>Obrigada pela atenção! Vocês tiram todas as minhas dúvidas. Excelente atendimento.</p><cite>Cliente LR</cite></figure>
+        <figure class="quote"><p>A gravação foi mara! Sua presença lá fez toda diferença. Nas falas e na ansiedade de gravar. Me deixou mais tranquila.</p><cite>Cliente LR</cite></figure>
+        <figure class="quote"><p>No que depender de mim nós vamos fazer história.</p><cite>Cliente LR</cite></figure>
+        <figure class="quote"><p>Vocês mandaram bem demais.</p><cite>Cliente LR</cite></figure>
+      </div>
+
+      <div class="video">
+        <strong>Depoimentos em vídeo</strong>
+        <span>Barbaroni · Caroline Nunes · Greko</span>
+        <a class="btn solid" href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTM0MDU3OTkyOTM0OTMx?story_media_id=3775438234546301787_36009376271&amp;igsi=MTV1Z3hxbDNuZGd5bw%3D%3D">Assistir no Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="localizacao">
+    <div class="wrap place">
+      <div>
+        <p class="eyebrow">Localização</p>
+        <h2>Onde nos encontrar.</h2>
+        <p class="addr" id="addr">Nova Friburgo, RJ</p>
+        <p class="addr-note">Toque em "Como chegar" para abrir a rota no aplicativo de mapas do seu celular.</p>
+        <div class="actions">
+          <a class="btn solid" id="route" href="https://www.google.com/maps/dir/?api=1&amp;destination=Nova%20Friburgo%2C%20RJ">Como chegar</a>
+          <a class="btn" id="view" href="https://www.google.com/maps/search/?api=1&amp;query=Nova%20Friburgo%2C%20RJ">Ver no mapa</a>
+        </div>
+      </div>
+      <div class="map" role="img" aria-label="Ilustração de mapa com o ponto da LR Mídias">
+        <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g fill="none" stroke="var(--line)" stroke-width="10" stroke-linecap="round">
+            <path d="M-20 90 C 140 70, 260 140, 420 110 S 560 60, 640 80"/>
+            <path d="M-20 300 C 120 280, 220 330, 360 300 S 540 270, 640 310"/>
+            <path d="M120 -20 C 140 120, 100 240, 150 420"/>
+            <path d="M330 -20 C 300 100, 360 220, 320 420"/>
+            <path d="M500 -20 C 520 120, 470 250, 520 420"/>
+          </g>
+          <g fill="none" stroke="var(--line)" stroke-width="3" stroke-linecap="round" opacity=".8">
+            <path d="M-20 190 L 640 200"/>
+            <path d="M230 -20 L 240 420"/>
+            <path d="M420 -20 L 410 420"/>
+          </g>
+          <circle cx="330" cy="195" r="46" fill="var(--hi)" opacity=".55"/>
+          <path d="M330 150 C 308 150 292 167 292 188 C 292 214 330 244 330 244 C 330 244 368 214 368 188 C 368 167 352 150 330 150 Z" fill="var(--fg)"/>
+          <circle cx="330" cy="188" r="12" fill="var(--bg)"/>
+        </svg>
+        <span class="cap">Ilustração. A rota real abre no Google Maps.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="contato">
+    <div class="wrap">
+      <p class="eyebrow">Contato</p>
+      <h2>Sua marca em movimento com a LR.</h2>
+      <p class="lead" style="margin-top:20px">Fale com a gente.</p>
+      <div class="contact">
+        <div>
+          <div class="k">WhatsApp</div>
+          <div class="v"><a href="https://wa.me/5522981778106">(22) 98177-8106</a></div>
+        </div>
+        <div>
+          <div class="k">E-mail</div>
+          <div class="v" id="email">lr.agenciademidia@gmail.com</div>
+          <button class="copy" id="copy" type="button">Copiar e-mail</button>
+        </div>
+        <div>
+          <div class="k">Instagram</div>
+          <div class="v"><a href="https://www.instagram.com/lr.midias_">@lr.midias_</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>LR Mídias · Gestão digital estratégica</span>
+    <a href="https://bio.site/lr.midias">bio.site/lr.midias</a>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/5522981778106">WhatsApp</a>
+
+<script>
+(function () {
+  var btn = document.getElementById("copy");
+  var box = document.getElementById("email");
+  btn.addEventListener("click", function () {
+    var text = box.textContent.trim();
+    var done = function () { btn.textContent = "E-mail copiado"; setTimeout(function () { btn.textContent = "Copiar e-mail"; }, 2000); };
+    var select = function () {
+      var r = document.createRange(); r.selectNodeContents(box);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = "Selecionado, copie com Ctrl+C";
+    };
+    try {
+      navigator.clipboard.writeText(text).then(done, select);
+    } catch (e) { select(); }
+  });
+})();
+</script>
