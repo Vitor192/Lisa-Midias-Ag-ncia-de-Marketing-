@@ -1,5 +1,11 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="LR Mídias: direção criativa e gestão digital estratégica que movimenta seu negócio, onde ele estiver.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>LR Mídias</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -133,7 +139,7 @@ p { margin: 0; }
 .folio a::before { content: "@"; color: var(--muted); }
 
 /* clientes (invertido) */
-.inv { background: var(--inv-bg); color: var(--inv-fg); border-top: 0 !important; }
+.inv { color: var(--inv-fg); border-top: 0 !important; }
 .inv .eyebrow, .inv .lead { color: var(--inv-muted); }
 .quotes { margin-top: 56px; columns: 3 260px; column-gap: 40px; }
 .quote { break-inside: avoid; margin: 0 0 40px; padding-top: 18px; border-top: 1px solid var(--inv-line); }
@@ -176,6 +182,44 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
 }
 .wa:hover { background: var(--hi); color: var(--on-hi); }
 
+/* 3D: o canvas fica fixo atrás de tudo e a câmera acompanha a rolagem */
+#scene { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; display: block; }
+body.no-3d #scene { display: none; }
+header.top, main, footer { position: relative; z-index: 1; }
+.progress { position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; height: 3px; z-index: 20; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.hud {
+  position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 5;
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--muted);
+  padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); font-variant-numeric: tabular-nums; pointer-events: none;
+  background: var(--bg); background: color-mix(in srgb, var(--bg) 78%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.hud b { color: var(--fg); font-weight: 600; }
+.cue { margin-top: 48px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 14px; }
+.cue::before { content: ""; width: 1px; height: 36px; background: var(--fg); transform-origin: top; animation: cue 2.2s ease-in-out infinite; }
+@keyframes cue { 0% { transform: scaleY(0); opacity: 1; } 55% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+.hero h1 { will-change: transform; }
+
+/* painéis de vidro para o texto continuar legível sobre as formas */
+.services, .folio, .stack, .contact, .case > div:last-child {
+  background: var(--bg); background: color-mix(in srgb, var(--bg) 74%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-radius: 18px; padding-inline: clamp(18px, 3vw, 32px);
+}
+.stack { padding-block: 28px; }
+.case > div:last-child { padding-block: 6px 20px; }
+.inv { background: var(--inv-bg); background: color-mix(in srgb, var(--inv-bg) 78%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); --inv-muted: color-mix(in srgb, var(--inv-fg) 82%, transparent); }
+.quote { transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
+
+/* entrada ao rolar */
+.rv { opacity: 0; transform: translateY(30px); }
+.rv.in { opacity: 1; transform: none; transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1); }
+
+@media (max-width: 860px) { #scene { opacity: .5; } }
+@media (max-width: 560px) { #scene { opacity: .38; } }
+@media (max-width: 560px) { .hud { letter-spacing: .08em; padding: 9px 13px; } .cue { margin-top: 36px; } }
+
 /* interações */
 .btn, .copy, .wa { transition: transform .25s ease, background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease; }
 .btn::after { content: "→"; display: inline-block; transition: transform .25s ease; }
@@ -200,7 +244,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
   .services li:hover::before { transform: translateY(-2px) scale(1.8); }
   .folio a:hover { transform: translateX(8px); }
   .folio a:hover::after { opacity: 1; transform: translate(0, 0); }
-  .quote:hover { transform: translateY(-5px); border-color: var(--hi); }
+  .quote:hover { transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-5px); border-color: var(--hi); }
   .metric:hover .track { transform: scaleY(1.6); }
   .map:hover svg path:last-of-type { transform: translateY(-8px); }
   .copy:hover { transform: translateY(-1px); }
@@ -245,6 +289,12 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
 }
 </style>
 
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="hud" id="hud" aria-hidden="true"><b>01</b> / 08 · Início</div>
+
 <header class="wrap top">
   <a class="mark" href="#inicio">LR Mídias</a>
   <nav class="nav" aria-label="Seções">
@@ -259,7 +309,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
 </header>
 
 <main id="inicio">
-  <section class="wrap hero">
+  <section class="wrap hero" id="hero">
     <h1>LR Mídias</h1>
     <p class="tag">Ao lado da <mark>sua marca.</mark></p>
     <p class="lead">Direção criativa que movimenta seu negócio, onde ele estiver. Gestão digital estratégica para quem quer crescer com quem se importa com o resultado.</p>
@@ -267,6 +317,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
       <a class="btn solid" href="https://wa.me/5522981778106">Fale com a LR</a>
       <a class="btn" href="#portfolio">Conheça nosso trabalho</a>
     </div>
+    <p class="cue">Role para explorar</p>
   </section>
 
   <section class="band" id="sobre">
@@ -283,6 +334,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
       </div>
     </div>
   </section>
+
 
   <section class="band" id="servicos">
     <div class="wrap">
@@ -373,6 +425,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
       </ul>
     </div>
   </section>
+
 
   <section class="band inv" id="clientes">
     <div class="wrap">
@@ -471,6 +524,347 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
 
 <a class="wa" href="https://wa.me/5522981778106">WhatsApp</a>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var ids = ["hero", "sobre", "servicos", "resultados", "portfolio", "clientes", "localizacao", "contato"];
+  var names = ["Início", "Sobre", "Serviços", "Resultados", "Portfólio", "Clientes", "Localização", "Contato"];
+  var els = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var bar = document.getElementById("progress");
+  var hud = document.getElementById("hud");
+  var heroH1 = document.querySelector(".hero h1");
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+  var smooth = function (x) { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+  var pad = function (n) { return n < 10 ? "0" + n : "" + n; };
+
+  /* posição fracionária na página: 0 = início, 7 = contato (o centro da tela entre os centros das seções) */
+  function sectionPos() {
+    var mid = window.innerHeight * 0.5, cs = [], i;
+    for (i = 0; i < els.length; i++) { var r = els[i].getBoundingClientRect(); cs.push(r.top + r.height / 2); }
+    if (mid <= cs[0]) return 0;
+    for (i = 0; i < cs.length - 1; i++) { if (mid < cs[i + 1]) return i + (mid - cs[i]) / (cs[i + 1] - cs[i]); }
+    return cs.length - 1;
+  }
+
+  /* barra de progresso, indicador da seção e deslocamento do título */
+  var lastIdx = -1;
+  function updateUi() {
+    var y = window.scrollY || window.pageYOffset || 0;
+    var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    if (bar) bar.style.transform = "scaleX(" + clamp(y / max, 0, 1).toFixed(4) + ")";
+    var idx = Math.round(sectionPos());
+    if (hud && idx !== lastIdx) { lastIdx = idx; hud.innerHTML = "<b>" + pad(idx + 1) + "</b> / 08 · " + names[idx]; }
+    if (heroH1 && !reduce) heroH1.style.transform = y < window.innerHeight ? "translate3d(0," + (y * 0.16).toFixed(1) + "px,0)" : "";
+  }
+
+  /* itens que entram suavemente ao rolar (só os que começam abaixo da tela) */
+  (function () {
+    if (!("IntersectionObserver" in window) || reduce) return;
+    var sel = ".band h2, .band .eyebrow, .band .lead, .stack, .services li, .metric, .folio li, .quote, .contact > div, .case > div:first-child, .place > div:first-child, .video";
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting && e.boundingClientRect.top >= 0) return;
+        var el = e.target;
+        el.classList.add("in");
+        io.unobserve(el);
+        setTimeout(function () { el.classList.remove("rv", "in"); el.style.transitionDelay = ""; }, 1400);
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.05 });
+    Array.prototype.forEach.call(document.querySelectorAll(sel), function (el, i) {
+      if (el.getBoundingClientRect().top < window.innerHeight) return;
+      el.classList.add("rv");
+      el.style.transitionDelay = ((i % 4) * 70) + "ms";
+      io.observe(el);
+    });
+  })();
+
+  /* inclinação 3D nos depoimentos */
+  if (window.matchMedia && window.matchMedia("(hover: hover)").matches && !reduce) {
+    Array.prototype.forEach.call(document.querySelectorAll(".quote"), function (q) {
+      q.addEventListener("pointermove", function (e) {
+        var r = q.getBoundingClientRect();
+        q.style.setProperty("--ry", (((e.clientX - r.left) / r.width - 0.5) * 10).toFixed(2) + "deg");
+        q.style.setProperty("--rx", ((-((e.clientY - r.top) / r.height - 0.5)) * 10).toFixed(2) + "deg");
+      });
+      q.addEventListener("pointerleave", function () { q.style.removeProperty("--rx"); q.style.removeProperty("--ry"); });
+    });
+  }
+
+  var render3d = null;
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; updateUi(); if (render3d && reduce) render3d(performance.now()); });
+  }
+
+  /* cena 3D: uma "estação" por seção, empilhadas na vertical; a câmera desce junto com a rolagem */
+  function start3d() {
+    var THREE = window.THREE, canvas = document.getElementById("scene");
+    if (!THREE || !canvas) return false;
+    var renderer;
+    try { renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true }); } catch (e) { return false; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0x000000, 0);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.62));
+    var sun = new THREE.DirectionalLight(0xffffff, 0.62);
+    sun.position.set(3, 5, 6);
+    scene.add(sun);
+
+    /* cores vêm dos tokens do CSS e acompanham o tema claro/escuro */
+    var tokens = { accent: "--accent", hi: "--hi", fg: "--fg", muted: "--muted", line: "--line", invfg: "--inv-fg" };
+    var C = {};
+    Object.keys(tokens).forEach(function (k) { C[k] = new THREE.Color(); });
+    function readColors() {
+      var cs = getComputedStyle(document.documentElement);
+      Object.keys(tokens).forEach(function (k) { var v = cs.getPropertyValue(tokens[k]).trim(); if (v) C[k].set(v); });
+    }
+    readColors();
+    if (window.matchMedia) {
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      if (mq.addEventListener) mq.addEventListener("change", readColors);
+    }
+    new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    function solid(color, opacity) {
+      var m = new THREE.MeshStandardMaterial({ roughness: 0.45, metalness: 0.15, transparent: opacity < 1, opacity: opacity == null ? 1 : opacity });
+      m.color = color; return m;
+    }
+    function flat(color, opacity, wire) {
+      var m = new THREE.MeshBasicMaterial({ wireframe: !!wire, transparent: true, opacity: opacity });
+      m.color = color; return m;
+    }
+
+    var STEP = 6;
+
+    function buildHero() {
+      var g = new THREE.Group();
+      var shell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.9, 1), flat(C.fg, 0.32, true));
+      var core = new THREE.Mesh(new THREE.OctahedronGeometry(0.95, 0), solid(C.hi));
+      var r1 = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.022, 8, 160), solid(C.accent));
+      var r2 = new THREE.Mesh(new THREE.TorusGeometry(2.3, 0.018, 8, 160), solid(C.fg));
+      r1.rotation.x = 1.15; r2.rotation.y = 1.2;
+      g.add(shell); g.add(core); g.add(r1); g.add(r2);
+      g.userData.update = function (t) {
+        shell.rotation.set(t * 0.08, t * 0.15, 0);
+        core.rotation.set(t * 0.25, -t * 0.4, 0);
+        r1.rotation.z = t * 0.18; r2.rotation.x = t * 0.12;
+      };
+      return g;
+    }
+
+    function buildAbout() {
+      var g = new THREE.Group();
+      var center = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 24), solid(C.hi));
+      var orbit = new THREE.Group(); orbit.rotation.x = 0.55;
+      var geo = new THREE.SphereGeometry(0.15, 16, 12), mat = solid(C.accent), i;
+      for (i = 0; i < 18; i++) {
+        var a = i / 18 * Math.PI * 2, s = new THREE.Mesh(geo, mat);
+        s.position.set(Math.cos(a) * 2.3, 0, Math.sin(a) * 2.3); orbit.add(s);
+      }
+      var path = new THREE.Mesh(new THREE.TorusGeometry(2.3, 0.012, 6, 160), solid(C.muted));
+      path.rotation.x = Math.PI / 2; orbit.add(path);
+      g.add(center); g.add(orbit);
+      g.userData.update = function (t) { orbit.rotation.y = t * 0.3; center.scale.setScalar(1 + Math.sin(t * 1.5) * 0.05); };
+      return g;
+    }
+
+    function buildServices() {
+      var g = new THREE.Group(), tiles = [];
+      var geo = new THREE.BoxGeometry(1.15, 0.8, 0.14), a = solid(C.accent, 0.92), h = solid(C.hi, 0.95);
+      for (var i = 0; i < 10; i++) {
+        var m = new THREE.Mesh(geo, i % 3 === 0 ? h : a);
+        m.position.set(((i % 2) - 0.5) * 1.5, (2 - Math.floor(i / 2)) * 0.95, 0);
+        g.add(m); tiles.push(m);
+      }
+      g.userData.update = function (t) {
+        tiles.forEach(function (m, i) {
+          m.rotation.y = Math.sin(t * 0.6 + i) * 0.35; m.rotation.x = Math.cos(t * 0.5 + i * 0.7) * 0.12;
+          m.position.z = Math.sin(t * 0.7 + i) * 0.3;
+        });
+        g.rotation.y = Math.sin(t * 0.25) * 0.25;
+      };
+      return g;
+    }
+
+    function buildResults() {
+      var g = new THREE.Group(), bars = [];
+      /* proporções reais do caso: antes e 4º mês de seguidores, visitas e cliques na bio */
+      var pairs = [[0.215, 1], [0.03, 1], [0.025, 1]];
+      pairs.forEach(function (pair, k) {
+        pair.forEach(function (v, j) {
+          var geo = new THREE.BoxGeometry(0.5, 1, 0.5); geo.translate(0, 0.5, 0);
+          var m = new THREE.Mesh(geo, solid(j ? C.accent : C.muted));
+          m.position.set((k - 1) * 1.9 + (j ? 0.34 : -0.34), -1.7, 0);
+          g.add(m);
+          var cap = null;
+          if (j) { cap = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 12), solid(C.hi)); g.add(cap); }
+          bars.push({ m: m, v: v, cap: cap });
+        });
+      });
+      var plate = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.05, 1.6), solid(C.line));
+      plate.position.y = -1.72; g.add(plate);
+      g.userData.update = function (t, k) {
+        var grow = smooth(k * 1.3);
+        bars.forEach(function (b) {
+          var h = Math.max(0.001, b.v * 3.4 * grow);
+          b.m.scale.y = h;
+          if (b.cap) b.cap.position.set(b.m.position.x, -1.7 + h + 0.28, 0);
+        });
+        g.rotation.y = -0.45 + Math.sin(t * 0.4) * 0.15; g.rotation.x = 0.12;
+      };
+      return g;
+    }
+
+    function buildFolio() {
+      var g = new THREE.Group(), cubes = [];
+      var geo = new THREE.BoxGeometry(0.7, 1, 0.7); geo.translate(0, 0.5, 0);
+      var a = solid(C.accent), h = solid(C.hi);
+      for (var r = 0; r < 4; r++) for (var c = 0; c < 5; c++) {
+        var m = new THREE.Mesh(geo, (r * 5 + c) % 7 === 3 ? h : a);
+        m.position.set((c - 2) * 1.0, -1, (r - 1.5) * 1.0);
+        g.add(m); cubes.push({ m: m, r: r, c: c });
+      }
+      g.userData.update = function (t) {
+        cubes.forEach(function (o) { o.m.scale.y = 0.35 + 0.9 * (Math.sin(t * 1.1 + o.c * 0.7 + o.r * 0.9) * 0.5 + 0.5); });
+        g.rotation.x = 0.45; g.rotation.y = -0.4 + Math.sin(t * 0.2) * 0.2;
+      };
+      return g;
+    }
+
+    function buildClients() {
+      var g = new THREE.Group(), orbs = [];
+      var shell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 1), flat(C.invfg, 0.35, true));
+      g.add(shell);
+      var mat = solid(C.hi);
+      for (var i = 0; i < 12; i++) {
+        var m = new THREE.Mesh(new THREE.SphereGeometry(0.16 + (i % 3) * 0.07, 20, 16), mat);
+        g.add(m); orbs.push(m);
+      }
+      g.userData.update = function (t) {
+        shell.rotation.set(t * 0.1, t * 0.2, 0);
+        orbs.forEach(function (m, i) {
+          var a = i / 12 * Math.PI * 2 + t * 0.25 * (i % 2 ? 1 : -1);
+          m.position.set(Math.cos(a) * 2.4, Math.sin(t * 0.8 + i) * 0.9, Math.sin(a) * 2.4);
+        });
+      };
+      return g;
+    }
+
+    function buildPlace() {
+      var g = new THREE.Group();
+      var grid = new THREE.Mesh(new THREE.PlaneGeometry(7, 7, 14, 14), flat(C.fg, 0.22, true));
+      grid.rotation.x = -Math.PI / 2; grid.position.y = -1.5; g.add(grid);
+      var pin = new THREE.Group();
+      var cone = new THREE.Mesh(new THREE.ConeGeometry(0.45, 1.2, 24), solid(C.fg));
+      cone.rotation.x = Math.PI; cone.position.y = 0.6;
+      var head = new THREE.Mesh(new THREE.SphereGeometry(0.55, 28, 20), solid(C.fg)); head.position.y = 1.4;
+      var dot = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 16), solid(C.hi)); dot.position.set(0, 1.4, 0.42);
+      pin.add(cone); pin.add(head); pin.add(dot); g.add(pin);
+      var rings = [0, 1].map(function () {
+        var mat = flat(C.hi, 0.8, false);
+        var m = new THREE.Mesh(new THREE.TorusGeometry(1, 0.018, 8, 80), mat);
+        m.rotation.x = Math.PI / 2; m.position.y = -1.48; g.add(m); return m;
+      });
+      g.userData.update = function (t) {
+        pin.position.y = -1.5 + Math.abs(Math.sin(t * 1.6)) * 0.35;
+        rings.forEach(function (m, i) {
+          var ph = (t * 0.5 + i * 0.5) % 1;
+          m.scale.setScalar(0.5 + ph * 2.2); m.material.opacity = (1 - ph) * 0.9;
+        });
+        g.rotation.x = 0.3; g.rotation.y = Math.sin(t * 0.2) * 0.4;
+      };
+      return g;
+    }
+
+    function buildContact() {
+      var g = new THREE.Group();
+      var knot = new THREE.Mesh(new THREE.TorusKnotGeometry(1.25, 0.38, 160, 18), solid(C.hi));
+      var halo = new THREE.Mesh(new THREE.TorusGeometry(2.7, 0.02, 8, 160), solid(C.accent));
+      g.add(knot); g.add(halo);
+      g.userData.update = function (t) { knot.rotation.set(t * 0.3, t * 0.45, 0); halo.rotation.set(1.2, t * 0.2, 0); };
+      return g;
+    }
+
+    var stages = [buildHero(), buildAbout(), buildServices(), buildResults(), buildFolio(), buildClients(), buildPlace(), buildContact()];
+    stages.forEach(function (g, i) { g.position.y = -i * STEP; scene.add(g); });
+
+    /* partículas de fundo para dar profundidade */
+    var N = 300, pos = new Float32Array(N * 3);
+    for (var p = 0; p < N; p++) {
+      pos[p * 3] = (Math.random() - 0.5) * 20;
+      pos[p * 3 + 1] = 4 - Math.random() * ((stages.length - 1) * STEP + 8);
+      pos[p * 3 + 2] = -6 + Math.random() * 9;
+    }
+    var pg = new THREE.BufferGeometry();
+    pg.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    var pm = new THREE.PointsMaterial({ size: 0.05, transparent: true, opacity: 0.45 });
+    pm.color = C.fg;
+    scene.add(new THREE.Points(pg, pm));
+
+    var offX = 0, S = 1;
+    function layout() {
+      var w = window.innerWidth, h = window.innerHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h; camera.updateProjectionMatrix();
+      var halfW = Math.tan(camera.fov * Math.PI / 360) * 10 * camera.aspect;
+      var wide = w >= 861 && w / h > 1.1;
+      offX = wide ? halfW * 0.5 : 0;
+      S = wide ? 1 : clamp(halfW / 3, 0.45, 1);
+    }
+    layout();
+
+    var mx = 0, my = 0, tx = 0, ty = 0, T = 0, last = performance.now(), lastY = window.scrollY || 0, vel = 0, sCur = null;
+    window.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      mx = e.clientX / window.innerWidth * 2 - 1; my = -(e.clientY / window.innerHeight * 2 - 1);
+    }, { passive: true });
+
+    function draw(now) {
+      var dt = Math.min(0.05, (now - last) / 1000); last = now;
+      var y = window.scrollY || 0;
+      vel += ((y - lastY) - vel) * Math.min(1, dt * 8); lastY = y;
+      var target = sectionPos();
+      if (sCur === null || reduce) sCur = target; else sCur += (target - sCur) * (1 - Math.exp(-dt * 5));
+      if (!reduce) T += dt * (1 + Math.min(4, Math.abs(vel) * 0.08));
+      tx += (mx - tx) * Math.min(1, dt * 4); ty += (my - ty) * Math.min(1, dt * 4);
+      var camY = -sCur * STEP;
+      camera.position.set(tx * 0.6, camY + ty * 0.35, 10);
+      camera.lookAt(tx * 0.3, camY, 0);
+      stages.forEach(function (g, i) {
+        var d = Math.abs(sCur - i), k = smooth(1 - d);
+        g.visible = d < 1.7;
+        if (!g.visible) return;
+        g.position.x = offX;
+        g.scale.setScalar(S * (0.85 + 0.15 * k));
+        g.userData.update(T, k);
+      });
+      renderer.render(scene, camera);
+    }
+
+    window.addEventListener("resize", function () { layout(); if (reduce) draw(performance.now()); });
+    if (reduce) { render3d = draw; draw(performance.now()); }
+    else {
+      render3d = draw;
+      (function loop(now) { draw(now); requestAnimationFrame(loop); })(performance.now());
+    }
+    return true;
+  }
+
+  var ok = false;
+  try { ok = start3d(); } catch (err) { ok = false; if (window.console) console.error(err); }
+  if (!ok) document.body.classList.add("no-3d");
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  updateUi();
+})();
+</script>
 <script>
 (function () {
   var btn = document.getElementById("copy");
@@ -489,3 +883,5 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px 24px; fl
   });
 })();
 </script>
+</body>
+</html>
